@@ -290,6 +290,52 @@ body {
         0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-input-wrapper input {
+    padding-right: 44px;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.password-toggle-btn:hover {
+    color: var(--text-primary);
+    background: var(--btn-secondary-hover);
+}
+
+.password-toggle-btn:focus-visible {
+    outline: 2px solid var(--input-focus-border);
+    outline-offset: 1px;
+}
+
+.password-toggle-btn svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
 
 /* =========================
    MAIN BUTTON
@@ -391,12 +437,139 @@ body {
 
 
 /* =========================
+   DISABLED STATES
+========================= */
+
+.main-button:disabled,
+.todo-input-area button:disabled,
+.todo-actions button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   SIGNUP LAYOUT & REQUIREMENTS
+========================= */
+
+.signup-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.signup-form-col {
+    width: 100%;
+}
+
+.signup-requirements {
+    background: var(--profile-info-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.requirements-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.req-header-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.req-group-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.req-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.req-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: color 0.18s ease;
+}
+
+.req-item .req-icon-unmet {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.req-item .req-icon-met {
+    display: none;
+    width: 13px;
+    height: 13px;
+    color: #10b981;
+    flex-shrink: 0;
+}
+
+.req-item.satisfied {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.req-item.satisfied .req-icon-unmet {
+    display: none;
+}
+
+.req-item.satisfied .req-icon-met {
+    display: inline-block;
+}
+
+@media (min-width: 768px) {
+    .auth-card.signup-mode {
+        width: 720px;
+        max-width: calc(100vw - 32px);
+    }
+
+    .auth-card.signup-mode .signup-layout {
+        display: grid;
+        grid-template-columns: 1fr 270px;
+        gap: 28px;
+        align-items: start;
+    }
+}
+
+
+/* =========================
    AUTH MOBILE
 ========================= */
 
 @media (max-width: 500px) {
 
-    .auth-card {
+    .auth-card,
+    .auth-card.signup-mode {
         width: calc(100% - 30px);
 
         padding: 24px;
@@ -763,8 +936,10 @@ body {
 }
 
 .todo-input-area button {
-    width: 44px;
+    min-width: 44px;
+    width: auto;
     height: 44px;
+    padding: 0 12px;
 
     border: none;
     border-radius: 9px;
@@ -784,6 +959,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.todo-input-area button.loading {
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .todo-input-area button:hover {

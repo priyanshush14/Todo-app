@@ -28,7 +28,7 @@
 
 <body>
 
-    <div class="auth-card">
+    <div class="auth-card signup-mode">
 
         <!-- Theme Controls -->
         <div class="theme-switch auth-theme-switch" role="group" aria-label="Theme mode">
@@ -146,72 +146,179 @@
 
         <div id="signupPage" class="auth-page">
 
-            <div class="form-group">
+            <div class="signup-layout">
 
-                <label for="signupName">
-                    Name
-                </label>
+                <div class="signup-form-col">
 
-                <input
-                    type="text"
-                    id="signupName"
-                    placeholder="Enter your name"
-                >
+                    <div class="form-group">
 
-            </div>
+                        <label for="signupName">
+                            Name
+                        </label>
 
+                        <input
+                            type="text"
+                            id="signupName"
+                            placeholder="Enter your name"
+                        >
 
-            <div class="form-group">
-
-                <label for="signupUsername">
-                    Username
-                </label>
-
-                <input
-                    type="text"
-                    id="signupUsername"
-                    placeholder="Enter your username"
-                >
-
-            </div>
+                    </div>
 
 
-            <div class="form-group">
+                    <div class="form-group">
 
-                <label for="signupPassword">
-                    Password
-                </label>
+                        <label for="signupUsername">
+                            Username
+                        </label>
 
-                <input
-                    type="password"
-                    id="signupPassword"
-                    placeholder="Enter your password"
-                >
+                        <input
+                            type="text"
+                            id="signupUsername"
+                            placeholder="Enter your username"
+                        >
 
-            </div>
-
-
-            <button
-                id="signupButton"
-                class="main-button"
-            >
-                Create an account
-            </button>
+                    </div>
 
 
-            <p
-                id="signupMessage"
-                class="message"
-            ></p>
+                    <div class="form-group">
+
+                        <label for="signupPassword">
+                            Password
+                        </label>
+
+                        <div class="password-input-wrapper">
+
+                            <input
+                                type="password"
+                                id="signupPassword"
+                                placeholder="Enter your password"
+                            >
+
+                            <button
+                                type="button"
+                                id="signupPasswordToggle"
+                                class="password-toggle-btn"
+                                aria-label="Show password"
+                                title="Show password"
+                            >
+                                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+
+                        </div>
+
+                    </div>
 
 
-            <div class="bottom-text">
+                    <button
+                        id="signupButton"
+                        class="main-button"
+                    >
+                        Create an account
+                    </button>
 
-                Already have an account?
 
-                <button id="goToLogin">
-                    Login
-                </button>
+                    <p
+                        id="signupMessage"
+                        class="message"
+                    ></p>
+
+
+                    <div class="bottom-text">
+
+                        Already have an account?
+
+                        <button id="goToLogin">
+                            Login
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Signup Requirements Panel (Positioned on the Right Side) -->
+                <aside class="signup-requirements" aria-label="Sign up requirements">
+
+                    <div class="requirements-header">
+                        <svg class="req-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span>Sign up requirements</span>
+                    </div>
+
+                    <div class="req-group">
+                        <span class="req-group-title">Name</span>
+                        <ul class="req-list">
+                            <li id="reqNameMin" class="req-item">
+                                <svg class="req-icon req-icon-unmet" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="8" cy="8" r="6"/>
+                                </svg>
+                                <svg class="req-icon req-icon-met" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
+                                </svg>
+                                <span>At least 3 characters</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="req-group">
+                        <span class="req-group-title">Username</span>
+                        <ul class="req-list">
+                            <li id="reqUsernameLength" class="req-item">
+                                <svg class="req-icon req-icon-unmet" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="8" cy="8" r="6"/>
+                                </svg>
+                                <svg class="req-icon req-icon-met" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
+                                </svg>
+                                <span>6–12 characters</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="req-group">
+                        <span class="req-group-title">Password</span>
+                        <ul class="req-list">
+                            <li id="reqPasswordLength" class="req-item">
+                                <svg class="req-icon req-icon-unmet" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="8" cy="8" r="6"/>
+                                </svg>
+                                <svg class="req-icon req-icon-met" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
+                                </svg>
+                                <span>8–20 characters</span>
+                            </li>
+                            <li id="reqPasswordUpper" class="req-item">
+                                <svg class="req-icon req-icon-unmet" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="8" cy="8" r="6"/>
+                                </svg>
+                                <svg class="req-icon req-icon-met" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
+                                </svg>
+                                <span>At least one uppercase letter (A–Z)</span>
+                            </li>
+                            <li id="reqPasswordSpecial" class="req-item">
+                                <svg class="req-icon req-icon-unmet" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="8" cy="8" r="6"/>
+                                </svg>
+                                <svg class="req-icon req-icon-met" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
+                                </svg>
+                                <span>At least one special character</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </aside>
 
             </div>
 
@@ -248,11 +355,32 @@
                     Password
                 </label>
 
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter your password"
-                >
+                <div class="password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                    >
+
+                    <button
+                        type="button"
+                        id="loginPasswordToggle"
+                        class="password-toggle-btn"
+                        aria-label="Show password"
+                        title="Show password"
+                    >
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+
+                </div>
 
             </div>
 

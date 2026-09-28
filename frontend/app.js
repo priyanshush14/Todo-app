@@ -63,6 +63,8 @@ const signupPage = document.querySelector("#signupPage");
 const goToLogin = document.querySelector("#goToLogin");
 const goToSignup = document.querySelector("#goToSignup");
 
+const authCard = document.querySelector(".auth-card");
+
 // Show login page
 
 function showLogin() {
@@ -72,6 +74,10 @@ function showLogin() {
 
     signupTab.classList.remove("active");
     loginTab.classList.add("active");
+
+    if (authCard) {
+        authCard.classList.remove("signup-mode");
+    }
 }
 
 
@@ -84,6 +90,13 @@ function showSignup() {
     loginTab.classList.remove("active");
     signupTab.classList.add("active");
 
+    if (authCard) {
+        authCard.classList.add("signup-mode");
+    }
+
+    if (typeof updateSignupRequirements === "function") {
+        updateSignupRequirements();
+    }
 }   
 
 // Top tabs
@@ -112,6 +125,7 @@ signupButton.addEventListener("click", signup);
 
 
 async function signup() {
+    if (signupButton.disabled) return;
 
     const name = signupName.value;
     const username = signupUsername.value;
@@ -124,6 +138,8 @@ async function signup() {
     };
 
     try {
+        signupButton.disabled = true;
+        signupButton.textContent = "Signing up...";
 
         const response = await fetch(`${API_URL}/signup`, {
 
@@ -160,6 +176,9 @@ async function signup() {
         signupMessage.textContent =
             "Unable to connect to server.";
 
+    } finally {
+        signupButton.disabled = false;
+        signupButton.textContent = "Create an account";
     }
 }
 
@@ -176,7 +195,8 @@ const loginmessage = document.querySelector("#loginMessage");
 loginbutton.addEventListener("click", login);
 
 async function login() {
-    
+    if (loginbutton.disabled) return;
+
     const username = loginusername.value;
     const password = loginpassword.value;
 
@@ -186,6 +206,9 @@ async function login() {
     };
 
     try {
+        loginbutton.disabled = true;
+        loginbutton.textContent = "Logging in...";
+
         const response = await fetch(`${API_URL}/signin`, {
 
             method: "POST",
@@ -217,5 +240,82 @@ async function login() {
         console.error("LOGIN ERROR:", err);
 
         loginmessage.textContent = "unable to meet server";
+    } finally {
+        loginbutton.disabled = false;
+        loginbutton.textContent = "Log In";
     }
 }
+
+/* =========================
+   Password Visibility Toggle
+========================= */
+
+function setupPasswordToggle(inputId, toggleBtnId) {
+    const input = document.getElementById(inputId);
+    const toggleBtn = document.getElementById(toggleBtnId);
+    if (!input || !toggleBtn) return;
+
+    toggleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const isPassword = input.type === "password";
+        input.type = isPassword ? "text" : "password";
+        toggleBtn.setAttribute("aria-label", isPassword ? "Hide password" : "Show password");
+        toggleBtn.setAttribute("title", isPassword ? "Hide password" : "Show password");
+
+        const eyeIcon = toggleBtn.querySelector(".eye-icon");
+        const eyeOffIcon = toggleBtn.querySelector(".eye-off-icon");
+        if (eyeIcon && eyeOffIcon) {
+            if (isPassword) {
+                eyeIcon.style.display = "none";
+                eyeOffIcon.style.display = "block";
+            } else {
+                eyeIcon.style.display = "block";
+                eyeOffIcon.style.display = "none";
+            }
+        }
+    });
+}
+
+setupPasswordToggle("signupPassword", "signupPasswordToggle");
+setupPasswordToggle("loginPassword", "loginPasswordToggle");
+
+/* =====================================
+   Signup Dynamic Validation UI
+===================================== */
+
+function updateSignupRequirements() {
+    const nameVal = signupName ? signupName.value : "";
+    const usernameVal = signupUsername ? signupUsername.value : "";
+    const passwordVal = signupPassword ? signupPassword.value : "";
+
+    // Name: min 3
+    setRequirementState("reqNameMin", nameVal.length >= 3);
+
+    // Username: 6–12 characters
+    setRequirementState("reqUsernameLength", usernameVal.length >= 6 && usernameVal.length <= 12);
+
+    // Password: 8–20 characters
+    setRequirementState("reqPasswordLength", passwordVal.length >= 8 && passwordVal.length <= 20);
+
+    // Password: at least one uppercase letter (A–Z)
+    setRequirementState("reqPasswordUpper", /[A-Z]/.test(passwordVal));
+
+    // Password: at least one special character
+    setRequirementState("reqPasswordSpecial", /[^A-Za-z0-9]/.test(passwordVal));
+}
+
+function setRequirementState(elementId, isMet) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    if (isMet) {
+        el.classList.add("satisfied");
+    } else {
+        el.classList.remove("satisfied");
+    }
+}
+
+if (signupName) signupName.addEventListener("input", updateSignupRequirements);
+if (signupUsername) signupUsername.addEventListener("input", updateSignupRequirements);
+if (signupPassword) signupPassword.addEventListener("input", updateSignupRequirements);
+
+updateSignupRequirements();

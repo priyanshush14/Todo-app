@@ -129,7 +129,7 @@ function renderTodos(todos) {
         deleteButton.className = "todo-btn todo-btn-delete";
         deleteButton.textContent = "Delete";
 
-        deleteButton.addEventListener("click", () => { deleteTodo(todo);});
+        deleteButton.addEventListener("click", () => { deleteTodo(todo, deleteButton); });
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -161,6 +161,8 @@ todoInput.addEventListener("keydown", (e) => {
 });
 
 async function createtodo() {
+    if (addTodoButton.disabled) return;
+
     const rawTitle = todoInput.value;
     const trimmedTitle = rawTitle.trim();
 
@@ -191,6 +193,10 @@ async function createtodo() {
     };
 
     try {
+        addTodoButton.disabled = true;
+        addTodoButton.textContent = "Adding...";
+        addTodoButton.classList.add("loading");
+
         const response = await fetch(`${API_URL}/create_todo`, {
             method: "POST",
             headers: {
@@ -214,6 +220,10 @@ async function createtodo() {
     } catch (err) {
         console.error("creation error:", err);
         alert("Unable to connect to server.");
+    } finally {
+        addTodoButton.disabled = false;
+        addTodoButton.textContent = "+";
+        addTodoButton.classList.remove("loading");
     }
 }
 
@@ -269,6 +279,9 @@ async function getProfile() {
 
 // toggle completion status
 async function toggleTodoStatus(todo, checkbox, todoItem, todoTitle) {
+    if (checkbox.disabled) return;
+    checkbox.disabled = true;
+
     const isChecked = checkbox.checked;
 
     try {
@@ -307,35 +320,50 @@ async function toggleTodoStatus(todo, checkbox, todoItem, todoTitle) {
         console.error("Status update error:", err);
         checkbox.checked = !isChecked;
         alert("Unable to connect to server.");
+    } finally {
+        checkbox.disabled = false;
     }
 }
 
 // delete functionality
-async function deleteTodo(todo) {
-    try {
-    const response = await fetch(`${API_URL}/delete_todo/${todo._id}`, {
-        method: "DELETE",
+async function deleteTodo(todo, deleteBtn) {
+    if (deleteBtn && deleteBtn.disabled) return;
 
-        headers: {
-            "Content-Type": "application/json",
-            token: token
-        }
-    });
-
-    const data = await response.json();
-
-    console.log(data);
-
-    if (response.ok) {
-        todos = todos.filter(t => t._id !== todo._id);
-        renderTodos(todos);
-    } else {
-        console.log(data.message);
+    if (deleteBtn) {
+        deleteBtn.disabled = true;
+        deleteBtn.textContent = "Deleting...";
     }
 
-} catch (err) {
-    console.log("deletion error:", err);
-}
+    try {
+        const response = await fetch(`${API_URL}/delete_todo/${todo._id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            todos = todos.filter(t => t._id !== todo._id);
+            renderTodos(todos);
+        } else {
+            console.log(data.message);
+            alert(data.message || "Failed to delete todo.");
+            if (deleteBtn) {
+                deleteBtn.disabled = false;
+                deleteBtn.textContent = "Delete";
+            }
+        }
+    } catch (err) {
+        console.error("deletion error:", err);
+        alert("Unable to connect to server.");
+        if (deleteBtn) {
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = "Delete";
+        }
+    }
 }
 
 // update todos
@@ -399,9 +427,12 @@ function updatetodo(todo, todoItem, todoTitle, editButton, deleteButton) {
             return;
         }
 
+        if (doneButton.disabled) return;
+
         try {
             doneButton.disabled = true;
             cancelButton.disabled = true;
+            doneButton.textContent = "Saving...";
 
             const response = await fetch(`${API_URL}/update_todo/${todo._id}`, {
                 method: "PUT",
@@ -427,6 +458,7 @@ function updatetodo(todo, todoItem, todoTitle, editButton, deleteButton) {
                 alert(data.message || "Failed to update todo.");
                 doneButton.disabled = false;
                 cancelButton.disabled = false;
+                doneButton.textContent = "Done";
                 input.focus();
             }
         } catch (err) {
@@ -434,6 +466,8 @@ function updatetodo(todo, todoItem, todoTitle, editButton, deleteButton) {
             alert("Unable to connect to server.");
             doneButton.disabled = false;
             cancelButton.disabled = false;
+            doneButton.textContent = "Done";
+            input.focus();
         }
     }
 
