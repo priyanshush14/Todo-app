@@ -1,3 +1,5 @@
+const API_URL = "https://sluglist.onrender.com";
+
 const loginTab = document.querySelector("#loginTab");
 const signupTab = document.querySelector("#signupTab");
 
@@ -69,7 +71,7 @@ async function signup() {
 
     try {
 
-        const response = await fetch("http://localhost:3000/signup", {
+        const response = await fetch(`${API_URL}/signup`, {
 
             method: "POST",
 
@@ -130,7 +132,7 @@ async function login() {
     };
 
     try {
-        const response = await fetch("http://localhost:3000/signin", {
+        const response = await fetch(`${API_URL}/signin`, {
 
             method: "POST",
 

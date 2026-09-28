@@ -54,6 +54,8 @@
 
 console.log("Todo page loaded");
 
+const API_URL = "https://sluglist.onrender.com";
+
 let todos = [];
 
 // authentication  verification & get todo
@@ -67,7 +69,7 @@ const todoList = document.querySelector("#todoList");
 
 async function gettodo() {
     try {
-        const response = await fetch("http://localhost:3000/retrive_todo", {
+        const response = await fetch(`${API_URL}/retrive_todo`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -160,7 +162,7 @@ async function createtodo() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/create_todo", {
+        const response = await fetch(`${API_URL}/create_todo`, {
             method: "POST",
 
             headers: {
@@ -203,7 +205,7 @@ if (logoutButton) {
 // Fetch authenticated user profile
 async function getProfile() {
     try {
-        const response = await fetch("http://localhost:3000/me", {
+        const response = await fetch(`${API_URL}/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -243,7 +245,7 @@ async function toggleTodoStatus(todo, checkbox, todoItem, todoTitle) {
     const isChecked = checkbox.checked;
 
     try {
-        const response = await fetch(`http://localhost:3000/update_todo_status/${todo._id}`, {
+        const response = await fetch(`${API_URL}/update_todo_status/${todo._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -284,7 +286,7 @@ async function toggleTodoStatus(todo, checkbox, todoItem, todoTitle) {
 // delete functionality
 async function deleteTodo(todo) {
     try {
-    const response = await fetch(`http://localhost:3000/delete_todo/${todo._id}`, {
+    const response = await fetch(`${API_URL}/delete_todo/${todo._id}`, {
         method: "DELETE",
 
         headers: {
@@ -374,7 +376,7 @@ function updatetodo(todo, todoItem, todoTitle, editButton, deleteButton) {
             doneButton.disabled = true;
             cancelButton.disabled = true;
 
-            const response = await fetch(`http://localhost:3000/update_todo/${todo._id}`, {
+            const response = await fetch(`${API_URL}/update_todo/${todo._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
