@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sluglist - Todos</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="sluglist-logo-bw.png"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+</head>
+
+
+<body>
+
+    <div class="todo-page">
+
+        <!-- =========================
+             PROFILE SECTION
+        ========================== -->
+
+        <aside class="profile-panel">
+
+            <div class="profile-main">
+
+                <!-- Sluglist Branding -->
+                <div class="brand-header">
+                    <img
+                        src="sluglist-logo-bw.png"
+                        alt="Sluglist Logo"
+                        class="brand-logo"
+                    >
+                    <span class="brand-name">Sluglist</span>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <!-- Profile Label -->
+                <p class="profile-label">Profile</p>
+
+                <!-- Profile Information -->
+                <div class="profile-top">
+
+                    <div class="profile-avatar" id="profileAvatar"></div>
+
+                    <h2 id="profileName"></h2>
+
+                    <p id="profileUsername"></p>
+
+                </div>
+
+                <div class="profile-info">
+
+                    <span>My Profile</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-bottom">
+
+                <!-- Theme Controls -->
+                <div class="theme-switch" role="group" aria-label="Theme mode">
+
+                    <button
+                        type="button"
+                        id="themeLightBtn"
+                        class="theme-btn active"
+                        data-theme="light"
+                        title="Light mode"
+                    >
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke-linecap="round"/>
+                        </svg>
+                        <span>Light</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        id="themeDarkBtn"
+                        class="theme-btn"
+                        data-theme="dark"
+                        title="Dark mode"
+                    >
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Dark</span>
+                    </button>
+
+                </div>
+
+                <!-- Logout -->
+                <button
+                    id="logoutButton"
+                    class="logout-button"
+                >
+                    Log out
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             TODO SECTION
+        ========================== -->
+
+        <main class="todos-panel">
+
+            <div class="todos-header">
+
+                <div>
+
+                    <p class="small-heading">
+                        Your workspace
+                    </p>
+
+                    <h1>
+                        My Todos
+                    </h1>
+
+                </div>
+
+
+                <div class="todo-count">
+
+                    <span id="todoCount">
+                        0
+                    </span>
+
+                    tasks
+
+                </div>
+
+            </div>
+
+
+            <!-- ADD TODO -->
+
+            <div class="todo-input-area">
+
+                <input
+                    type="text"
+                    id="todoInput"
+                    placeholder="What needs to be done?"
+                >
+
+                <button id="addTodoButton">
+                    +
+                </button>
+
+            </div>
+
+
+            <!-- TODO LIST -->
+
+            <div
+                id="todoList"
+                class="todo-list"
+            >
+
+                <!-- JavaScript will add todos here -->
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script src="todo.js"></script>
+
+</body>
+
+</html>

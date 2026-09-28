@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sluglist</title>
+
+    <!-- Sluglist favicon -->
+    <link rel="icon" type="image/png" href="sluglist-logo-bw.png">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="auth-card">
+
+        <!-- Login / Signup tabs -->
+        <div class="auth-tabs">
+
+            <!-- Login -->
+            <button id="loginTab" class="tab-button">
+
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+
+                    <path
+                        d="M10 5H5C4.45 5 4 5.45 4 6V18C4 18.55 4.45 19 5 19H10"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="M11 12H20"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="M17 9L20 12L17 15"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                </svg>
+
+                Login
+
+            </button>
+
+
+            <!-- Sign Up -->
+            <button id="signupTab" class="tab-button active">
+
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+
+                    <circle
+                        cx="9"
+                        cy="8"
+                        r="3.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <path
+                        d="M3.5 20C3.5 16.7 5.8 14.5 9 14.5C12.2 14.5 14.5 16.7 14.5 20"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="M18 8V14"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="M15 11H21"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+                Sign Up
+
+            </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- SIGN UP PAGE -->
+        <!-- ========================= -->
+
+        <div id="signupPage" class="auth-page">
+
+            <div class="form-group">
+
+                <label for="signupName">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="signupName"
+                    placeholder="Enter your name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="signupUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="signupUsername"
+                    placeholder="Enter your username"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="signupPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="Enter your password"
+                >
+
+            </div>
+
+
+            <button
+                id="signupButton"
+                class="main-button"
+            >
+                Create an account
+            </button>
+
+
+            <p
+                id="signupMessage"
+                class="message"
+            ></p>
+
+
+            <div class="bottom-text">
+
+                Already have an account?
+
+                <button id="goToLogin">
+                    Login
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- LOGIN PAGE -->
+        <!-- ========================= -->
+
+        <div
+            id="loginPage"
+            class="auth-page hidden"
+        >
+
+            <div class="form-group">
+
+                <label for="loginUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter your username"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                >
+
+            </div>
+
+
+            <button
+                id="loginButton"
+                class="main-button"
+            >
+                Log In
+            </button>
+
+
+            <p
+                id="loginMessage"
+                class="message"
+            ></p>
+
+
+            <div class="bottom-text">
+
+                Don't have an account?
+
+                <button id="goToSignup">
+                    Sign up
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+
+</body>
+
+</html>

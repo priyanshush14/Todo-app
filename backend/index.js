@@ -6,9 +6,12 @@ const { z } = require(`zod`);
 const { UserModel, TodoModel } = require("./Db");
 require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET;
+console.log("JWT SECRET LOADED:", !!JWT_SECRET);
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 mongoose.connect(process.env.MONGO_URI) 
     .then(() => {
@@ -144,6 +147,31 @@ app.get("/retrive_todo", auth, async (req, res) => {
     }
 });
 
+app.get("/me", auth, async (req, res) => {
+    const userid = req.userid;
+
+    try {
+        const user = await UserModel.findById(userid);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found!"
+            });
+        }
+
+        res.status(200).json({
+            name: user.name,
+            username: user.username
+        });
+    }
+    catch (error) {
+        console.error("ME ERROR:", error);
+        res.status(500).json({
+            message: "Server error!"
+        });
+    }
+});
+
 app.put("/update_todo/:id", auth, async (req, res) => {
     const newresponse = z.object({
         newtitle: z.string().min(2).max(300)
@@ -185,6 +213,52 @@ app.put("/update_todo/:id", auth, async (req, res) => {
         console.log("UPDATION ERROR OCCURED:", err);
         res.status(500).json({
             message: "wasnt able to update todo"
+        });
+    }
+});
+
+app.put("/update_todo_status/:id", auth, async (req, res) => {
+    const statusSchema = z.object({
+        done: z.boolean()
+    });
+
+    const parsedStatus = statusSchema.safeParse(req.body);
+    if (!parsedStatus.success) {
+        return res.status(400).json({
+            message: "Invalid status format",
+            error: parsedStatus.error
+        });
+    }
+
+    const userid = req.userid;
+    const todoid = req.params.id;
+    const done = parsedStatus.data.done;
+
+    try {
+        const updatedtodo = await TodoModel.findOneAndUpdate(
+            {
+                _id: todoid,
+                userid: userid
+            },
+            {
+                done: done
+            }
+        );
+
+        if (updatedtodo) {
+            res.status(200).json({
+                message: "todo status updated successfully!"
+            });
+        } else {
+            return res.status(404).json({
+                message: "Todo not found"
+            });
+        }
+    }
+    catch (err) {
+        console.log("STATUS UPDATION ERROR OCCURED:", err);
+        res.status(500).json({
+            message: "wasnt able to update todo status"
         });
     }
 });
