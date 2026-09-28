@@ -154,39 +154,66 @@ const addTodoButton = document.querySelector("#addTodoButton");
 
 addTodoButton.addEventListener("click", createtodo);
 
+todoInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        createtodo();
+    }
+});
+
 async function createtodo() {
-    const title = todoInput.value;
+    const rawTitle = todoInput.value;
+    const trimmedTitle = rawTitle.trim();
+
+    if (!trimmedTitle) {
+        alert("Todo title cannot be empty.");
+        todoInput.focus();
+        return;
+    }
+
+    if (trimmedTitle.length < 2 || trimmedTitle.length > 300) {
+        alert("Todo title must be between 2 and 300 characters.");
+        todoInput.focus();
+        return;
+    }
+
+    const isDuplicate = todos.some(
+        t => t.title && t.title.trim().toLowerCase() === trimmedTitle.toLowerCase()
+    );
+
+    if (isDuplicate) {
+        alert("This todo already exists.");
+        todoInput.focus();
+        return;
+    }
 
     const tododata = {
-        title: title
-    }
+        title: trimmedTitle
+    };
 
     try {
         const response = await fetch(`${API_URL}/create_todo`, {
             method: "POST",
-
             headers: {
                 "content-type": "application/json",
                 token: token
             },
-
             body: JSON.stringify(tododata)
         });
 
         const data = await response.json();
 
-        console.log(data);
-
-        if(response.ok) {
+        if (response.ok) {
             todos.push(data.todo);
             renderTodos(todos);
+            todoInput.value = "";
+            todoInput.focus();
         } else {
             console.log(data.message);
+            alert(data.message || "Failed to create todo.");
         }
-
-    }
-    catch (err) {
-        console.log("creation error:", err);
+    } catch (err) {
+        console.error("creation error:", err);
+        alert("Unable to connect to server.");
     }
 }
 

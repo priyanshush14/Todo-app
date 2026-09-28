@@ -96,7 +96,7 @@ app.post("/signin", inputvalidator_signin, async (req, res) => {
 app.post("/create_todo", auth, async (req, res) => {
     const requiredtitle = z.object({
         title: z.string().min(2).max(300)
-    })
+    });
 
     const parsedtitle = requiredtitle.safeParse(req.body);
 
@@ -108,25 +108,44 @@ app.post("/create_todo", auth, async (req, res) => {
     }
 
     const userid = req.userid;
-    const title = parsedtitle.data.title;
+    const rawTitle = parsedtitle.data.title;
+    const normalizedTitle = rawTitle.trim();
+
+    if (normalizedTitle.length < 2) {
+        return res.status(400).json({
+            message: "Todo title must be between 2 and 300 characters"
+        });
+    }
 
     try {
+        const escapedTitle = normalizedTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const existingTodo = await TodoModel.findOne({
+            userid: userid,
+            title: { $regex: new RegExp(`^\\s*${escapedTitle}\\s*$`, "i") }
+        });
+
+        if (existingTodo) {
+            return res.status(409).json({
+                message: "Todo already exists"
+            });
+        }
+
         const todo = await TodoModel.create({
-            title: title,
+            title: normalizedTitle,
             userid: userid
         });
 
         res.status(201).json({
             message: "todo created successfully!",
             todo: todo
-        })
+        });
     }
     catch (error) {
+        console.error("CREATE TODO ERROR:", error);
         res.status(500).json({
             message: "database error"
         });
     }
-
 });
 
 app.get("/retrive_todo", auth, async (req, res) => {

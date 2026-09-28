@@ -1,3 +1,57 @@
+// Theme toggle functionality
+(function () {
+    const themeLightBtn = document.getElementById("themeLightBtn");
+    const themeDarkBtn = document.getElementById("themeDarkBtn");
+
+    function applyTheme(theme) {
+        if (theme === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+            if (themeDarkBtn) themeDarkBtn.classList.add("active");
+            if (themeLightBtn) themeLightBtn.classList.remove("active");
+            try {
+                localStorage.setItem("theme", "dark");
+            } catch (e) {
+                // Ignore localStorage errors
+            }
+        } else {
+            document.documentElement.setAttribute("data-theme", "light");
+            if (themeLightBtn) themeLightBtn.classList.add("active");
+            if (themeDarkBtn) themeDarkBtn.classList.remove("active");
+            try {
+                localStorage.setItem("theme", "light");
+            } catch (e) {
+                // Ignore localStorage errors
+            }
+        }
+    }
+
+    // Initialize based on saved theme or system preference
+    let savedTheme = null;
+    try {
+        savedTheme = localStorage.getItem("theme");
+    } catch (e) {
+        // Fallback
+    }
+
+    if (savedTheme === "dark" || (!savedTheme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        applyTheme("dark");
+    } else {
+        applyTheme("light");
+    }
+
+    if (themeLightBtn) {
+        themeLightBtn.addEventListener("click", function () {
+            applyTheme("light");
+        });
+    }
+
+    if (themeDarkBtn) {
+        themeDarkBtn.addEventListener("click", function () {
+            applyTheme("dark");
+        });
+    }
+})();
+
 const API_URL = "https://sluglist.onrender.com";
 
 const loginTab = document.querySelector("#loginTab");

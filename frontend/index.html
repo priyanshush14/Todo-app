@@ -11,11 +11,54 @@
     <link rel="icon" type="image/png" href="sluglist-logo-bw.png">
 
     <link rel="stylesheet" href="style.css">
+
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
 <body>
 
     <div class="auth-card">
+
+        <!-- Theme Controls -->
+        <div class="theme-switch auth-theme-switch" role="group" aria-label="Theme mode">
+            <button
+                type="button"
+                id="themeLightBtn"
+                class="theme-btn active"
+                data-theme="light"
+                title="Light mode"
+            >
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke-linecap="round"/>
+                </svg>
+                <span>Light</span>
+            </button>
+
+            <button
+                type="button"
+                id="themeDarkBtn"
+                class="theme-btn"
+                data-theme="dark"
+                title="Dark mode"
+            >
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Dark</span>
+            </button>
+        </div>
 
         <!-- Login / Signup tabs -->
         <div class="auth-tabs">

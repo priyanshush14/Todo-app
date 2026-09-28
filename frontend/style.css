@@ -131,16 +131,24 @@ body {
 .auth-card {
     width: 390px;
 
-    background: rgba(255, 255, 255, 0.97);
+    background: var(--card-bg);
 
-    border: 1px solid #dedede;
+    border: 1px solid var(--border-card);
 
     border-radius: 18px;
 
     padding: 28px;
 
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--card-shadow);
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.auth-theme-switch {
+    margin-bottom: 20px;
 }
 
 
@@ -178,7 +186,7 @@ body {
 
     font-size: 14px;
 
-    color: #555;
+    color: var(--text-secondary);
 
     cursor: pointer;
 
@@ -189,14 +197,17 @@ body {
 
 
 .tab-button:hover {
-    background: #f2f2f2;
+    background: var(--btn-secondary-hover);
+    color: var(--text-primary);
 }
 
 
 .tab-button.active {
-    background: #f5f5f5;
+    background: var(--theme-btn-active-bg);
 
-    color: #111;
+    color: var(--text-primary);
+
+    box-shadow: var(--theme-btn-active-shadow);
 }
 
 
@@ -231,7 +242,7 @@ body {
 
     font-size: 13px;
 
-    color: #444;
+    color: var(--text-secondary);
 }
 
 
@@ -242,7 +253,7 @@ body {
 
     padding: 0 13px;
 
-    border: 1px solid #d9d9d9;
+    border: 1px solid var(--input-border);
 
     border-radius: 9px;
 
@@ -250,26 +261,33 @@ body {
 
     font-size: 14px;
 
-    color: #171b22;
+    color: var(--text-primary);
 
-    background: white;
+    background: var(--input-bg);
 
     transition:
         border 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 
 .form-group input::placeholder {
-    color: #a5a5a5;
+    color: var(--input-placeholder);
 }
 
 
 .form-group input:focus {
-    border-color: #777;
+    border-color: var(--input-focus-border);
 
     box-shadow:
         0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .form-group input:focus {
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
 
@@ -288,9 +306,9 @@ body {
 
     border-radius: 9px;
 
-    background: #171b22;
+    background: var(--btn-primary-bg);
 
-    color: white;
+    color: var(--btn-primary-text);
 
     font-size: 14px;
 
@@ -303,7 +321,7 @@ body {
 
 
 .main-button:hover {
-    background: #282d35;
+    background: var(--btn-primary-hover);
 }
 
 
@@ -321,13 +339,13 @@ body {
 
     padding-top: 20px;
 
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--border-subtle);
 
     text-align: center;
 
     font-size: 13px;
 
-    color: #666;
+    color: var(--text-muted);
 }
 
 
@@ -336,7 +354,7 @@ body {
 
     background: transparent;
 
-    color: #111;
+    color: var(--text-primary);
 
     text-decoration: underline;
 
@@ -358,6 +376,8 @@ body {
     text-align: center;
 
     font-size: 13px;
+
+    color: var(--text-secondary);
 }
 
 
